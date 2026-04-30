@@ -1,124 +1,147 @@
-<h2 class="sr-only">Weekly workout tracker with exercise checklists and dashboard</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Weekly Workout Tracker</title>
+
 <style>
 :root {
-  --c1:#4e8ef7;--c1d:#1a2a4a;--c2:#3ecf8e;--c2d:#0e2e20;--c3:#f5a524;--c3d:#2e2008;
-  --bg:var(--color-background-tertiary);--card:var(--color-background-primary);
-  --card2:var(--color-background-secondary);--border:var(--color-border-tertiary);
-  --text:var(--color-text-primary);--muted:var(--color-text-secondary);
+  --c1:#4e8ef7;--c1d:#1a2a4a;
+  --c2:#3ecf8e;--c2d:#0e2e20;
+  --c3:#f5a524;--c3d:#2e2008;
+
+  --bg:#0b1220;
+  --card:#111a2b;
+  --card2:#0f172a;
+  --border:rgba(255,255,255,.12);
+  --text:#e5e7eb;
+  --muted:rgba(229,231,235,.7);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  --border-radius-md: 12px;
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:var(--font-sans);color:var(--text);background:var(--bg);min-height:100vh}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:var(--font-sans);
+  color:var(--text);
+  background:var(--bg);
+  min-height:100vh;
+}
+
+h2.sr-only{position:absolute;left:-9999px}
+
 .hero{padding:40px 20px 20px}
 .hero-lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .hero-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
-.hero-title{font-size:38px;font-weight:500;line-height:1;color:var(--text)}
+.hero-title{font-size:38px;font-weight:500;line-height:1}
 .hero-title span{color:var(--c1)}
+
 .week-nav{display:flex;align-items:center;gap:8px}
-.week-nav button{background:var(--card);border:0.5px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;color:var(--muted);cursor:pointer}
-.week-nav button:hover{background:var(--card2)}
+.week-nav button{
+  background:var(--card);
+  border:.5px solid var(--border);
+  border-radius:8px;
+  padding:6px 10px;
+  color:var(--muted);
+  cursor:pointer
+}
 .week-label{font-size:12px;color:var(--muted);min-width:90px;text-align:center}
-.nav-tabs{display:flex;gap:8px;padding:0 16px;margin:16px 0 0}
-.nav-tab{flex:1;padding:9px 0;border-radius:10px;border:0.5px solid var(--border);background:var(--card);font-size:11px;font-weight:500;text-align:center;cursor:pointer;color:var(--muted);transition:all .15s;letter-spacing:.03em}
+
+.nav-tabs{display:flex;gap:8px;padding:0 16px;margin-top:16px}
+.nav-tab{
+  flex:1;padding:9px 0;border-radius:10px;
+  border:.5px solid var(--border);
+  background:var(--card);
+  font-size:11px;font-weight:500;
+  text-align:center;cursor:pointer;color:var(--muted)
+}
 .nav-tab.a1{background:var(--c1d);border-color:var(--c1);color:var(--c1)}
 .nav-tab.a2{background:var(--c2d);border-color:var(--c2);color:var(--c2)}
 .nav-tab.a3{background:var(--c3d);border-color:var(--c3);color:var(--c3)}
-.nav-tab.a4{background:var(--card2);border-color:var(--border);color:var(--text)}
+.nav-tab.a4{background:var(--card2);color:var(--text)}
+
 .panel{display:none;padding:16px 16px 40px}
 .panel.vis{display:block}
-.p-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
-.p-title{font-size:28px;font-weight:500;line-height:1}
-.p-title.c1{color:var(--c1)}.p-title.c2{color:var(--c2)}.p-title.c3{color:var(--c3)}
-.p-equip{font-size:11px;color:var(--muted);margin-top:4px}
-.tbadge{font-size:13px;font-weight:500;padding:5px 10px;border-radius:8px;flex-shrink:0}
-.tb1{background:var(--c1d);color:var(--c1)}.tb2{background:var(--c2d);color:var(--c2)}.tb3{background:var(--c3d);color:var(--c3)}
+
+.p-header{display:flex;justify-content:space-between;margin-bottom:14px}
+.p-title{font-size:28px;font-weight:500}
+.p-title.c1{color:var(--c1)}.c2{color:var(--c2)}.c3{color:var(--c3)}
+.p-equip{font-size:11px;color:var(--muted)}
+
+.tbadge{font-size:13px;padding:5px 10px;border-radius:8px}
+.tb1{background:var(--c1d);color:var(--c1)}
+.tb2{background:var(--c2d);color:var(--c2)}
+.tb3{background:var(--c3d);color:var(--c3)}
+
 .time-row{display:flex;gap:8px;margin-bottom:16px}
-.tpill{flex:1;background:var(--card);border:0.5px solid var(--border);border-radius:10px;padding:9px 8px;text-align:center}
-.tpill-v{font-size:20px;font-weight:500;color:var(--text)}
-.tpill-l{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:2px}
+.tpill{flex:1;background:var(--card);border:.5px solid var(--border);border-radius:10px;padding:9px 8px;text-align:center}
+.tpill-v{font-size:20px}
+.tpill-l{font-size:9px;text-transform:uppercase;color:var(--muted)}
+
 .blk{margin-bottom:16px}
-.blk-title{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:500;margin-bottom:8px;padding-left:2px}
-.ex-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;margin-bottom:5px;overflow:hidden;transition:opacity .2s}
+.blk-title{font-size:10px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+
+.ex-card{background:var(--card);border:.5px solid var(--border);border-radius:12px;margin-bottom:6px}
 .ex-card.done{opacity:.55}
-.ex-main{display:flex;align-items:center;padding:11px 12px;gap:10px}
-.chk{width:20px;height:20px;border-radius:6px;border:0.5px solid var(--border);background:var(--card2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.chk.checked{border-color:var(--ck-color);background:var(--ck-color)}
-.chk.checked::after{content:'';display:block;width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
-.ex-info{flex:1;min-width:0;cursor:pointer}
-.ex-name{font-size:13px;font-weight:500;color:var(--text);line-height:1.3}
-.ex-detail{font-size:11px;color:var(--muted);margin-top:1px}
-.ex-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.sbadge{font-size:13px;font-weight:500;padding:3px 8px;border-radius:7px}
-.sb1{background:var(--c1d);color:var(--c1)}.sb2{background:var(--c2d);color:var(--c2)}.sb3{background:var(--c3d);color:var(--c3)}
-.rtag{font-size:10px;color:var(--muted);background:var(--card2);border:0.5px solid var(--border);border-radius:6px;padding:3px 6px;white-space:nowrap}
-.ex-tip{padding:0 12px 10px 42px;font-size:12px;color:var(--muted);line-height:1.55;border-top:0.5px solid var(--border);padding-top:9px;display:none}
+.ex-main{display:flex;gap:10px;padding:11px 12px;align-items:center}
+
+.chk{
+  width:20px;height:20px;border-radius:6px;
+  border:.5px solid var(--border);
+  background:var(--card2);
+  cursor:pointer;display:flex;align-items:center;justify-content:center
+}
+.chk.checked{background:var(--ck-color);border-color:var(--ck-color)}
+.chk.checked::after{
+  content:'';width:5px;height:9px;border:2px solid #fff;
+  border-top:none;border-left:none;transform:rotate(45deg)
+}
+
+.ex-info{flex:1;cursor:pointer}
+.ex-name{font-size:13px}
+.ex-detail{font-size:11px;color:var(--muted)}
+
+.sbadge{font-size:13px;padding:3px 8px;border-radius:7px}
+.sb1{background:var(--c1d);color:var(--c1)}
+.sb2{background:var(--c2d);color:var(--c2)}
+.sb3{background:var(--c3d);color:var(--c3)}
+
+.ex-tip{display:none;padding:10px 12px 10px 42px;border-top:.5px solid var(--border);font-size:12px;color:var(--muted)}
 .ex-tip.open{display:block}
-.ss-group{background:var(--card);border:0.5px solid var(--border);border-radius:12px;margin-bottom:5px;overflow:hidden}
-.ss-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.12em;padding:6px 12px;border-bottom:0.5px solid var(--border);color:var(--muted);background:var(--card2)}
-.ss-group .ex-card{background:transparent;border:none;border-radius:0;margin-bottom:0;border-top:0.5px solid var(--border)}
-.ss-group .ex-card:first-of-type{border-top:none}
-.ss-rest{padding:6px 12px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;border-top:0.5px solid var(--border);background:var(--card2)}
-.ss-rest::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted);opacity:.5;flex-shrink:0}
-.tip-note{background:var(--card2);border-left:3px solid var(--border);border-radius:0 10px 10px 0;padding:10px 12px;font-size:12px;color:var(--muted);line-height:1.6;margin-top:4px}
-.workout-footer{margin-top:16px;padding:14px 16px;background:var(--card);border:0.5px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+.workout-footer{
+  margin-top:16px;padding:14px 16px;
+  background:var(--card);border:.5px solid var(--border);
+  border-radius:14px;display:flex;gap:12px
+}
 .wf-prog{flex:1}
 .wf-label{font-size:11px;color:var(--muted);margin-bottom:6px}
-.prog-bar{height:6px;background:var(--card2);border-radius:3px;overflow:hidden}
-.prog-fill{height:100%;border-radius:3px;transition:width .3s;background:var(--c1)}
-.wf-btn{padding:8px 16px;border-radius:10px;border:0.5px solid var(--border);background:var(--card2);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;color:var(--text)}
-.wf-btn.complete-btn{background:var(--c1d);border-color:var(--c1);color:var(--c1)}
-.wf-btn.done-btn{background:var(--c2d);border-color:var(--c2);color:var(--c2)}
-/* Cardio day */
-.cardio-items{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.cardio-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:14px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s}
-.cardio-card.done{opacity:.55}
-.cc-chk{width:22px;height:22px;border-radius:7px;border:0.5px solid var(--border);background:var(--card2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.cc-chk.checked{background:var(--c2);border-color:var(--c2)}
-.cc-chk.checked::after{content:'';display:block;width:5px;height:9px;border:2px solid #fff;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px)}
-.cc-info{flex:1}
-.cc-name{font-size:13px;font-weight:500;color:var(--text)}
-.cc-detail{font-size:11px;color:var(--muted);margin-top:2px}
-.cc-badge{font-size:12px;font-weight:500;padding:3px 8px;border-radius:7px;background:var(--c2d);color:var(--c2);flex-shrink:0}
-/* Dashboard */
-.dash-section{margin-bottom:24px}
-.dash-title{font-size:13px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
-.stat-card{background:var(--card2);border-radius:var(--border-radius-md);padding:12px 14px}
-.stat-val{font-size:24px;font-weight:500;color:var(--text);line-height:1}
-.stat-lbl{font-size:11px;color:var(--muted);margin-top:4px}
-.streak-row{display:flex;gap:8px}
-.streak-day{flex:1;background:var(--card2);border-radius:8px;padding:8px 4px;text-align:center}
-.streak-day.active{background:var(--c1d)}
-.sd-name{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.sd-dot{width:10px;height:10px;border-radius:50%;background:var(--border);margin:6px auto 0}
-.streak-day.active .sd-dot{background:var(--c1)}
-.streak-day.active .sd-name{color:var(--c1)}
-.act-list{display:flex;flex-direction:column;gap:6px}
-.act-item{background:var(--card);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between}
-.act-name{font-size:13px;font-weight:500;color:var(--text)}
-.act-sub{font-size:11px;color:var(--muted);margin-top:2px}
-.act-badge{font-size:11px;font-weight:500;padding:3px 8px;border-radius:6px}
-.badge-done{background:var(--c2d);color:var(--c2)}
-.badge-miss{background:var(--card2);color:var(--muted);border:0.5px solid var(--border)}
-.badge-par{background:var(--c3d);color:var(--c3)}
-.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ach-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:flex-start}
-.ach-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.ach-icon.locked{background:var(--card2);filter:grayscale(1);opacity:.4}
-.ach-icon.unlocked{background:var(--c3d)}
-.ach-name{font-size:12px;font-weight:500;color:var(--text)}
-.ach-desc{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
-.reset-btn{width:100%;padding:10px;border-radius:10px;border:0.5px solid var(--color-border-danger);background:transparent;color:var(--color-text-danger);font-size:12px;cursor:pointer;margin-top:8px}
-.reset-btn:hover{background:var(--color-background-danger)}
+.prog-bar{height:6px;background:var(--card2);border-radius:3px}
+.prog-fill{height:100%;border-radius:3px}
+.wf-btn{
+  padding:8px 16px;border-radius:10px;
+  border:.5px solid var(--border);
+  background:var(--card2);
+  font-size:12px;cursor:pointer
+}
+.complete-btn{background:var(--c1d);color:var(--c1)}
+.done-btn{background:var(--c2d);color:var(--c2)}
 </style>
+</head>
+
+<body>
+<h2 class="sr-only">Weekly workout tracker</h2>
 
 <div class="hero">
   <div class="hero-lbl">Home Training</div>
   <div class="hero-row">
     <div class="hero-title"><span>3</span>-Day + Cardio</div>
     <div class="week-nav">
-      <button onclick="changeWeek(-1)">&#8592;</button>
-      <span class="week-label" id="week-label">This week</span>
-      <button onclick="changeWeek(1)">&#8594;</button>
+      <button onclick="changeWeek(-1)">←</button>
+      <span id="week-label" class="week-label">This week</span>
+      <button onclick="changeWeek(1)">→</button>
     </div>
   </div>
 </div>
@@ -131,454 +154,87 @@ body{font-family:var(--font-sans);color:var(--text);background:var(--bg);min-hei
   <div class="nav-tab" onclick="switchTab(4)">DASH</div>
 </div>
 
-<!-- CORE -->
 <div class="panel vis" id="panel-0">
   <div class="p-header">
-    <div><div class="p-title c1">Core &amp; Stability</div><div class="p-equip">Dumbbells · Band · Mat</div></div>
+    <div>
+      <div class="p-title c1">Core & Stability</div>
+      <div class="p-equip">Dumbbells · Band · Mat</div>
+    </div>
     <div class="tbadge tb1">~40 MIN</div>
   </div>
-  <div class="time-row">
-    <div class="tpill"><div class="tpill-v">4</div><div class="tpill-l">Warm-up</div></div>
-    <div class="tpill"><div class="tpill-v">32</div><div class="tpill-l">Work</div></div>
-    <div class="tpill"><div class="tpill-v">4</div><div class="tpill-l">Cooldown</div></div>
-  </div>
+
   <div class="blk">
     <div class="blk-title">Warm-up</div>
-    <div class="ex-card" data-day="0" data-id="w1"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info"><div class="ex-name">Jumping jacks</div></div><div class="ex-right"><div class="sbadge sb1">60s</div><div class="rtag">15s rest</div></div></div></div>
-    <div class="ex-card" data-day="0" data-id="w2"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info"><div class="ex-name">High knees</div></div><div class="ex-right"><div class="sbadge sb1">60s</div><div class="rtag">15s rest</div></div></div></div>
-    <div class="ex-card" data-day="0" data-id="w3"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info"><div class="ex-name">Hip circles + cat-cow</div></div><div class="ex-right"><div class="sbadge sb1">90s</div></div></div></div>
+    <div class="ex-card" data-day="0" data-id="w1">
+      <div class="ex-main">
+        <div class="chk" style="--ck-color:var(--c1)"></div>
+        <div class="ex-info"><div class="ex-name">Jumping jacks</div></div>
+        <div class="sbadge sb1">60s</div>
+      </div>
+    </div>
   </div>
-  <div class="blk">
-    <div class="blk-title">Main work · 45–60s rest between sets</div>
-    <div class="ex-card" data-day="0" data-id="m1"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Bridges</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb1">3×20</div><div class="rtag">45s</div></div></div><div class="ex-tip">Drive hips fully at the top and squeeze glutes hard. Lower slowly over 2–3 seconds.</div></div>
-    <div class="ex-card" data-day="0" data-id="m2"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Dead bug with dumbbells</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb1">3×10</div><div class="rtag">45s</div></div></div><div class="ex-tip">Keep lower back flat against the floor. Slow and controlled — no momentum.</div></div>
-    <div class="ex-card" data-day="0" data-id="m3"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Bird dog</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb1">3×10</div><div class="rtag">45s</div></div></div><div class="ex-tip">10 reps each side. Pause 2 seconds at full extension. Keep hips level.</div></div>
-    <div class="ex-card" data-day="0" data-id="m4"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Plank</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb1">3×40s</div><div class="rtag">45s</div></div></div><div class="ex-tip">Full body tension — squeeze glutes, quads, and core together. Don't let hips sag or pike.</div></div>
-    <div class="ex-card" data-day="0" data-id="m5"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Side plank</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb1">3×30s</div><div class="rtag">45s</div></div></div><div class="ex-tip">30s each side per set. Stack feet or stagger for balance. Keep hips lifted.</div></div>
-    <div class="ex-card" data-day="0" data-id="m6"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Push-ups</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb1">3×12</div><div class="rtag">45s</div></div></div><div class="ex-tip">3 seconds down, 1 second up. Moving plank — not a chest exercise.</div></div>
-    <div class="ex-card" data-day="0" data-id="m7"><div class="ex-main"><div class="chk" style="--ck-color:var(--c1)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Band deadlift</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb1">3×20</div><div class="rtag">60s</div></div></div><div class="ex-tip">Hinge at the hip — push hips back, not down. Neutral spine throughout.</div></div>
-  </div>
+
   <div class="workout-footer">
     <div class="wf-prog">
-      <div class="wf-label" id="prog-lbl-0">0 / 10 exercises</div>
+      <div class="wf-label" id="prog-lbl-0">0 / 1 exercises</div>
       <div class="prog-bar"><div class="prog-fill" id="prog-fill-0" style="width:0%;background:var(--c1)"></div></div>
     </div>
-    <button class="wf-btn complete-btn" id="wf-btn-0" onclick="completeWorkout(0)" style="border-color:var(--c1);color:var(--c1);background:var(--c1d)">Mark complete</button>
+    <button class="wf-btn complete-btn" id="wf-btn-0" onclick="completeWorkout(0)">Mark complete</button>
   </div>
-</div>
-
-<!-- LOWER -->
-<div class="panel" id="panel-1">
-  <div class="p-header">
-    <div><div class="p-title c2">Lower Body</div><div class="p-equip">Dumbbells · Resistance band</div></div>
-    <div class="tbadge tb2">~40 MIN</div>
-  </div>
-  <div class="time-row">
-    <div class="tpill"><div class="tpill-v">5</div><div class="tpill-l">Warm-up</div></div>
-    <div class="tpill"><div class="tpill-v">31</div><div class="tpill-l">Work</div></div>
-    <div class="tpill"><div class="tpill-v">4</div><div class="tpill-l">Cooldown</div></div>
-  </div>
-  <div class="blk">
-    <div class="blk-title">Warm-up</div>
-    <div class="ex-card" data-day="1" data-id="w1"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info"><div class="ex-name">Jumping jacks</div></div><div class="ex-right"><div class="sbadge sb2">60s</div><div class="rtag">15s</div></div></div></div>
-    <div class="ex-card" data-day="1" data-id="w2"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info"><div class="ex-name">High knees</div></div><div class="ex-right"><div class="sbadge sb2">60s</div><div class="rtag">15s</div></div></div></div>
-    <div class="ex-card" data-day="1" data-id="w3"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info"><div class="ex-name">Leg swings (front/back + lateral)</div></div><div class="ex-right"><div class="sbadge sb2">60s</div><div class="rtag">15s</div></div></div></div>
-    <div class="ex-card" data-day="1" data-id="w4"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info"><div class="ex-name">Bodyweight squats</div></div><div class="ex-right"><div class="sbadge sb2">15</div></div></div></div>
-  </div>
-  <div class="blk">
-    <div class="blk-title">Main work · 60–75s rest between sets</div>
-    <div class="ex-card" data-day="1" data-id="m1"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Dumbbell swings</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb2">3×20</div><div class="rtag">60s</div></div></div><div class="ex-tip">Hip hinge power movement — not a squat. Drive hips forward explosively.</div></div>
-    <div class="ex-card" data-day="1" data-id="m2"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Goblet squats</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb2">3×20</div><div class="rtag">75s</div></div></div><div class="ex-tip">Chest tall, elbows inside knees at the bottom. Pause at the bottom to kill momentum.</div></div>
-    <div class="ex-card" data-day="1" data-id="m3"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Romanian deadlift</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb2">3×15</div><div class="rtag">75s</div></div></div><div class="ex-tip">Hinge until you feel the hamstring stretch. Neutral spine — no rounding.</div></div>
-    <div class="ex-card" data-day="1" data-id="m4"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Bulgarian split squat</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb2">3×10</div><div class="rtag">75s</div></div></div><div class="ex-tip">10 each leg. Rear foot elevated on a chair. Front shin stays vertical.</div></div>
-    <div class="ex-card" data-day="1" data-id="m5"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Reverse lunges</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb2">3×15</div><div class="rtag">60s</div></div></div><div class="ex-tip">15 each leg. Back knee just above floor. Front shin stays vertical.</div></div>
-    <div class="ex-card" data-day="1" data-id="m6"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Banded lateral walk</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb2">3×15</div><div class="rtag">45s</div></div></div><div class="ex-tip">Constant tension on band. Slight squat position, toes forward.</div></div>
-    <div class="ex-card" data-day="1" data-id="m7"><div class="ex-main"><div class="chk" style="--ck-color:var(--c2)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Calf raises</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb2">3×25</div><div class="rtag">45s</div></div></div><div class="ex-tip">3 seconds down. Progress to single-leg when 25 reps feels easy.</div></div>
-  </div>
-  <div class="workout-footer">
-    <div class="wf-prog">
-      <div class="wf-label" id="prog-lbl-1">0 / 11 exercises</div>
-      <div class="prog-bar"><div class="prog-fill" id="prog-fill-1" style="width:0%;background:var(--c2)"></div></div>
-    </div>
-    <button class="wf-btn complete-btn" id="wf-btn-1" onclick="completeWorkout(1)" style="border-color:var(--c2);color:var(--c2);background:var(--c2d)">Mark complete</button>
-  </div>
-</div>
-
-<!-- UPPER -->
-<div class="panel" id="panel-2">
-  <div class="p-header">
-    <div><div class="p-title c3">Upper Body</div><div class="p-equip">Dumbbells · Band · Dip surface</div></div>
-    <div class="tbadge tb3">~40 MIN</div>
-  </div>
-  <div class="time-row">
-    <div class="tpill"><div class="tpill-v">4</div><div class="tpill-l">Warm-up</div></div>
-    <div class="tpill"><div class="tpill-v">32</div><div class="tpill-l">Work</div></div>
-    <div class="tpill"><div class="tpill-v">4</div><div class="tpill-l">Cooldown</div></div>
-  </div>
-  <div class="blk">
-    <div class="blk-title">Warm-up · Shoulder prep</div>
-    <div class="ex-card" data-day="2" data-id="w1"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info"><div class="ex-name">Band pull-aparts</div></div><div class="ex-right"><div class="sbadge sb3">2×20</div><div class="rtag">15s</div></div></div></div>
-    <div class="ex-card" data-day="2" data-id="w2"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info"><div class="ex-name">Band overhead reach</div></div><div class="ex-right"><div class="sbadge sb3">2×20</div><div class="rtag">15s</div></div></div></div>
-    <div class="ex-card" data-day="2" data-id="w3"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info"><div class="ex-name">Band dislocates (wide grip)</div></div><div class="ex-right"><div class="sbadge sb3">2×20</div></div></div></div>
-  </div>
-  <div class="blk">
-    <div class="blk-title">Main work</div>
-    <div class="ss-group">
-      <div class="ss-lbl">Superset A — no rest between A1 and A2</div>
-      <div class="ex-card" data-day="2" data-id="m1"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">A1 · DB bench press</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb3">3×20</div></div></div><div class="ex-tip">Control descent. Don't flare elbows past 45°. Full chest stretch at the bottom.</div></div>
-      <div class="ex-card" data-day="2" data-id="m2"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">A2 · Band row</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb3">3×20</div></div></div><div class="ex-tip">Pull elbows back and squeeze shoulder blades together at the end.</div></div>
-      <div class="ss-rest">Rest 75s after A2, then repeat</div>
-    </div>
-    <div class="ex-card" data-day="2" data-id="m3"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">DB shoulder press</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb3">2×20</div><div class="rtag">60s</div></div></div><div class="ex-tip">Press slightly in front of head. Control the descent.</div></div>
-    <div class="ss-group">
-      <div class="ss-lbl">Superset B</div>
-      <div class="ex-card" data-day="2" data-id="m4"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info"><div class="ex-name">B1 · Band lateral raise</div></div><div class="ex-right"><div class="sbadge sb3">2×15</div></div></div></div>
-      <div class="ex-card" data-day="2" data-id="m5"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info"><div class="ex-name">B2 · Band front raise</div></div><div class="ex-right"><div class="sbadge sb3">2×15</div></div></div></div>
-      <div class="ss-rest">Rest 60s after B2, then repeat</div>
-    </div>
-    <div class="ss-group">
-      <div class="ss-lbl">Superset C — shoulder health priority</div>
-      <div class="ex-card" data-day="2" data-id="m6"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">C1 · Band face pulls</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb3">2×15</div></div></div><div class="ex-tip">Pull to your face with elbows high and wide. Emphasize external rotation.</div></div>
-      <div class="ex-card" data-day="2" data-id="m7"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info"><div class="ex-name">C2 · Band trap extension</div></div><div class="ex-right"><div class="sbadge sb3">2×15</div></div></div></div>
-      <div class="ss-rest">Rest 60s after C2, then repeat</div>
-    </div>
-    <div class="ex-card" data-day="2" data-id="m8"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Band lat pulldown</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb3">3×15</div><div class="rtag">60s</div></div></div><div class="ex-tip">Anchor band overhead. Pull elbows down toward hips. Squeeze lats at the bottom.</div></div>
-    <div class="ex-card" data-day="2" data-id="m9"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Push-ups</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb3">3×15</div><div class="rtag">60s</div></div></div><div class="ex-tip">2 seconds down, explosive up. Full body tension throughout.</div></div>
-    <div class="ex-card" data-day="2" data-id="m10"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info" onclick="toggleTip(this)"><div class="ex-name">Dips or overhead triceps ext.</div><div class="ex-detail">Tap for tip</div></div><div class="ex-right"><div class="sbadge sb3">3×12</div><div class="rtag">60s</div></div></div><div class="ex-tip">Dips preferred. Keep elbows close, lean slightly forward.</div></div>
-    <div class="ex-card" data-day="2" data-id="m11"><div class="ex-main"><div class="chk" style="--ck-color:var(--c3)"></div><div class="ex-info"><div class="ex-name">DB bicep curl <span style="font-size:11px;opacity:.5">(optional)</span></div><div class="ex-detail">Biceps already hit in rows</div></div><div class="ex-right"><div class="sbadge sb3">2×12</div></div></div></div>
-  </div>
-  <div class="workout-footer">
-    <div class="wf-prog">
-      <div class="wf-label" id="prog-lbl-2">0 / 14 exercises</div>
-      <div class="prog-bar"><div class="prog-fill" id="prog-fill-2" style="width:0%;background:var(--c3)"></div></div>
-    </div>
-    <button class="wf-btn complete-btn" id="wf-btn-2" onclick="completeWorkout(2)" style="border-color:var(--c3);color:var(--c3);background:var(--c3d)">Mark complete</button>
-  </div>
-</div>
-
-<!-- CARDIO -->
-<div class="panel" id="panel-3">
-  <div class="p-header">
-    <div><div class="p-title c2">Cardio</div><div class="p-equip">Weekly targets</div></div>
-  </div>
-  <div class="cardio-items" id="cardio-items">
-    <div class="cardio-card" data-cid="run1" onclick="toggleCardio(this)">
-      <div class="cc-chk"></div>
-      <div class="cc-info"><div class="cc-name">Run 1</div><div class="cc-detail">2 km target</div></div>
-      <div class="cc-badge">2 KM</div>
-    </div>
-    <div class="cardio-card" data-cid="run2" onclick="toggleCardio(this)">
-      <div class="cc-chk"></div>
-      <div class="cc-info"><div class="cc-name">Run 2</div><div class="cc-detail">2 km target</div></div>
-      <div class="cc-badge">2 KM</div>
-    </div>
-    <div class="cardio-card" data-cid="swim" onclick="toggleCardio(this)">
-      <div class="cc-chk"></div>
-      <div class="cc-info"><div class="cc-name">Swim</div><div class="cc-detail">1200m · ~45 min</div></div>
-      <div class="cc-badge">1×</div>
-    </div>
-    <div class="cardio-card" data-cid="walk1" onclick="toggleCardio(this)">
-      <div class="cc-chk"></div>
-      <div class="cc-info"><div class="cc-name">Walk 1</div><div class="cc-detail">Casual walk</div></div>
-      <div class="cc-badge" style="background:var(--card2);color:var(--muted)">3–4×</div>
-    </div>
-    <div class="cardio-card" data-cid="walk2" onclick="toggleCardio(this)">
-      <div class="cc-chk"></div>
-      <div class="cc-info"><div class="cc-name">Walk 2</div><div class="cc-detail">Casual walk</div></div>
-      <div class="cc-badge" style="background:var(--card2);color:var(--muted)">3–4×</div>
-    </div>
-    <div class="cardio-card" data-cid="walk3" onclick="toggleCardio(this)">
-      <div class="cc-chk"></div>
-      <div class="cc-info"><div class="cc-name">Walk 3</div><div class="cc-detail">Casual walk</div></div>
-      <div class="cc-badge" style="background:var(--card2);color:var(--muted)">3–4×</div>
-    </div>
-    <div class="cardio-card" data-cid="walk4" onclick="toggleCardio(this)">
-      <div class="cc-chk"></div>
-      <div class="cc-info"><div class="cc-name">Walk 4</div><div class="cc-detail">Optional</div></div>
-      <div class="cc-badge" style="background:var(--card2);color:var(--muted)">opt.</div>
-    </div>
-  </div>
-  <div class="workout-footer">
-    <div class="wf-prog">
-      <div class="wf-label" id="prog-lbl-3">0 / 7 cardio activities</div>
-      <div class="prog-bar"><div class="prog-fill" id="prog-fill-3" style="width:0%;background:var(--c2)"></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- DASHBOARD -->
-<div class="panel" id="panel-4">
-  <div class="dash-section">
-    <div class="dash-title">This week</div>
-    <div class="stat-grid">
-      <div class="stat-card"><div class="stat-val" id="d-workouts">0/3</div><div class="stat-lbl">Workouts done</div></div>
-      <div class="stat-card"><div class="stat-val" id="d-cardio">0/7</div><div class="stat-lbl">Cardio activities</div></div>
-      <div class="stat-card"><div class="stat-val" id="d-streak">0</div><div class="stat-lbl">Week streak</div></div>
-      <div class="stat-card"><div class="stat-val" id="d-total">0</div><div class="stat-lbl">Weeks tracked</div></div>
-    </div>
-  </div>
-  <div class="dash-section">
-    <div class="dash-title">Weekly activities</div>
-    <div class="act-list" id="act-list"></div>
-  </div>
-  <div class="dash-section">
-    <div class="dash-title">Achievements</div>
-    <div class="ach-grid" id="ach-grid"></div>
-  </div>
-  <button class="reset-btn" onclick="resetWeek()">Reset this week's progress</button>
 </div>
 
 <script>
-var DAYS = ['core','lower','upper'];
-var CARDIO_IDS = ['run1','run2','swim','walk1','walk2','walk3','walk4'];
-var currentTab = 0;
-var weekOffset = 0;
-
-function getWeekKey(offset) {
-  var d = new Date();
-  d.setDate(d.getDate() - d.getDay() + 1 + offset * 7);
-  var y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), w = String(d.getDate()).padStart(2,'0');
-  return 'wk-' + y + '-' + m + '-' + w;
-}
-
-function getWeekLabel(offset) {
-  if (offset === 0) return 'This week';
-  if (offset === -1) return 'Last week';
-  if (offset === 1) return 'Next week';
-  var d = new Date();
-  d.setDate(d.getDate() - d.getDay() + 1 + offset * 7);
-  return d.toLocaleDateString('en-NL', {day:'numeric', month:'short'});
-}
-
-async function loadData() {
-  var key = getWeekKey(weekOffset);
-  try {
-    var r = await window.storage.get(key);
-    return r ? JSON.parse(r.value) : {checks:{}, cardio:{}, workouts:[]};
-  } catch(e) { return {checks:{}, cardio:{}, workouts:[]}; }
-}
-
-async function saveData(data) {
-  var key = getWeekKey(weekOffset);
-  try { await window.storage.set(key, JSON.stringify(data)); } catch(e) {}
-}
-
-async function getAllWeeks() {
-  try {
-    var r = await window.storage.list('wk-');
-    return r ? r.keys : [];
-  } catch(e) { return []; }
-}
-
-function exKey(day, id) { return 'd'+day+'-'+id; }
-
-async function toggleCheck(card) {
-  var day = parseInt(card.dataset.day);
-  var id = card.dataset.id;
-  var data = await loadData();
-  var k = exKey(day, id);
-  data.checks[k] = !data.checks[k];
-  await saveData(data);
-  renderCheckboxes(data);
-  updateProgress(day, data);
-}
-
-async function toggleCardio(card) {
-  var cid = card.dataset.cid;
-  var data = await loadData();
-  data.cardio[cid] = !data.cardio[cid];
-  await saveData(data);
-  renderCardio(data);
-  updateCardioProgress(data);
-}
-
-function renderCheckboxes(data) {
-  document.querySelectorAll('.ex-card[data-day]').forEach(function(card) {
-    var k = exKey(parseInt(card.dataset.day), card.dataset.id);
-    var chk = card.querySelector('.chk');
-    if (data.checks[k]) {
-      chk.classList.add('checked');
-      card.classList.add('done');
-    } else {
-      chk.classList.remove('checked');
-      card.classList.remove('done');
-    }
-  });
-}
-
-function renderCardio(data) {
-  document.querySelectorAll('.cardio-card').forEach(function(card) {
-    var cid = card.dataset.cid;
-    var chk = card.querySelector('.cc-chk');
-    if (data.cardio[cid]) {
-      chk.classList.add('checked');
-      card.classList.add('done');
-    } else {
-      chk.classList.remove('checked');
-      card.classList.remove('done');
-    }
-  });
-}
-
-function countDayExercises(day) {
-  return document.querySelectorAll('.ex-card[data-day="'+day+'"]').length;
-}
-
-function updateProgress(day, data) {
-  var cards = document.querySelectorAll('.ex-card[data-day="'+day+'"]');
-  var total = cards.length, done = 0;
-  cards.forEach(function(c) { if (data.checks[exKey(day, c.dataset.id)]) done++; });
-  var pct = total > 0 ? Math.round(done/total*100) : 0;
-  document.getElementById('prog-lbl-'+day).textContent = done + ' / ' + total + ' exercises';
-  document.getElementById('prog-fill-'+day).style.width = pct + '%';
-  var btn = document.getElementById('wf-btn-'+day);
-  if (data.workouts && data.workouts.indexOf(day) > -1) {
-    btn.textContent = '✓ Completed';
-    btn.className = 'wf-btn done-btn';
-  } else {
-    btn.className = 'wf-btn complete-btn';
-    var cols = ['var(--c1)','var(--c2)','var(--c3)'];
-    var dims = ['var(--c1d)','var(--c2d)','var(--c3d)'];
-    btn.style.borderColor = cols[day]; btn.style.color = cols[day]; btn.style.background = dims[day];
-    btn.textContent = pct === 100 ? 'Mark complete ✓' : 'Mark complete';
+/* storage polyfill */
+(function(){
+  if(window.storage) return;
+  window.storage={
+    async get(k){const v=localStorage.getItem(k);return v?{value:v}:null},
+    async set(k,v){localStorage.setItem(k,v)},
+    async delete(k){localStorage.removeItem(k)},
+    async list(p){return{keys:Object.keys(localStorage).filter(k=>k.startsWith(p))}}
   }
+})();
+
+let currentTab=0,weekOffset=0;
+function monday(offset){
+  const d=new Date(),i=(d.getDay()+6)%7;
+  d.setDate(d.getDate()-i+offset*7);d.setHours(0,0,0,0);return d;
 }
+function weekKey(o){const d=monday(o);return`wk-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function weekLabel(o){if(o===0)return"This week";if(o===-1)return"Last week";if(o===1)return"Next week";return monday(o).toLocaleDateString("en-NL",{day:"numeric",month:"short"})}
 
-function updateCardioProgress(data) {
-  var done = CARDIO_IDS.filter(function(c) { return data.cardio[c]; }).length;
-  var total = CARDIO_IDS.length;
-  var pct = Math.round(done/total*100);
-  document.getElementById('prog-lbl-3').textContent = done + ' / ' + total + ' cardio activities';
-  document.getElementById('prog-fill-3').style.width = pct + '%';
+async function loadData(){
+  const r=await storage.get(weekKey(weekOffset));
+  return r?JSON.parse(r.value):{checks:{},workouts:[]}
 }
+async function saveData(d){await storage.set(weekKey(weekOffset),JSON.stringify(d))}
 
-async function completeWorkout(day) {
-  var data = await loadData();
-  if (!data.workouts) data.workouts = [];
-  if (data.workouts.indexOf(day) === -1) data.workouts.push(day);
-  await saveData(data);
-  updateProgress(day, data);
-  renderDashboard(data);
-}
-
-function renderDashboard(data) {
-  var wDone = (data.workouts||[]).length;
-  var cDone = CARDIO_IDS.filter(function(c){return data.cardio[c];}).length;
-  document.getElementById('d-workouts').textContent = wDone + '/3';
-  document.getElementById('d-cardio').textContent = cDone + '/7';
-
-  var names = ['Core','Lower body','Upper body'];
-  var colors = ['c1','c2','c3'];
-  var list = document.getElementById('act-list');
-  list.innerHTML = '';
-  names.forEach(function(n,i) {
-    var done = data.workouts && data.workouts.indexOf(i) > -1;
-    var cards = document.querySelectorAll('.ex-card[data-day="'+i+'"]');
-    var total = cards.length, checked = 0;
-    cards.forEach(function(c) { if (data.checks[exKey(i,c.dataset.id)]) checked++; });
-    var pct = total > 0 ? Math.round(checked/total*100) : 0;
-    var badgeCls = done ? 'badge-done' : (pct > 0 ? 'badge-par' : 'badge-miss');
-    var badgeTxt = done ? 'Done' : (pct > 0 ? pct+'% done' : 'Not started');
-    list.innerHTML += '<div class="act-item"><div><div class="act-name">'+n+'</div><div class="act-sub">'+checked+'/'+total+' exercises checked</div></div><span class="act-badge '+badgeCls+'">'+badgeTxt+'</span></div>';
-  });
-  var cardioNames = {run1:'Run 1',run2:'Run 2',swim:'Swim',walk1:'Walk 1',walk2:'Walk 2',walk3:'Walk 3',walk4:'Walk 4'};
-  CARDIO_IDS.forEach(function(cid) {
-    var done = !!data.cardio[cid];
-    var badgeCls = done ? 'badge-done' : 'badge-miss';
-    var badgeTxt = done ? 'Done' : 'Pending';
-    list.innerHTML += '<div class="act-item"><div><div class="act-name">'+cardioNames[cid]+'</div></div><span class="act-badge '+badgeCls+'">'+badgeTxt+'</span></div>';
-  });
-}
-
-async function renderAchievements() {
-  var keys = await getAllWeeks();
-  var weeks = keys.length;
-  document.getElementById('d-total').textContent = weeks;
-
-  var streak = 0;
-  for (var i = 0; i >= -52; i--) {
-    var k = getWeekKey(i);
-    if (keys.indexOf(k) > -1) {
-      try {
-        var r = await window.storage.get(k);
-        if (r) {
-          var d = JSON.parse(r.value);
-          if (d.workouts && d.workouts.length === 3) { streak++; continue; }
-        }
-      } catch(e) {}
-    }
-    break;
+document.querySelectorAll('.ex-card').forEach(c=>{
+  c.querySelector('.chk').onclick=async e=>{
+    const d=await loadData(),k=`d${c.dataset.day}-${c.dataset.id}`;
+    d.checks[k]=!d.checks[k];await saveData(d);render();
   }
-  document.getElementById('d-streak').textContent = streak;
-
-  var achs = [
-    {icon:'🔥', name:'First workout', desc:'Complete your first workout session', check: function(d){ return d.workouts && d.workouts.length > 0; }},
-    {icon:'💪', name:'Full week', desc:'Complete all 3 workouts in a week', check: function(d){ return d.workouts && d.workouts.length === 3; }},
-    {icon:'🏃', name:'Runner', desc:'Complete both runs in a week', check: function(d){ return d.cardio && d.cardio.run1 && d.cardio.run2; }},
-    {icon:'🏊', name:'Swimmer', desc:'Complete your weekly swim', check: function(d){ return d.cardio && d.cardio.swim; }},
-    {icon:'🚶', name:'Walker', desc:'Complete 3+ walks in a week', check: function(d){ return d.cardio && [d.cardio.walk1,d.cardio.walk2,d.cardio.walk3].filter(Boolean).length >= 3; }},
-    {icon:'⚡', name:'All-rounder', desc:'All 3 workouts + all cardio in a week', check: function(d){ return d.workouts && d.workouts.length===3 && CARDIO_IDS.filter(function(c){return d.cardio&&d.cardio[c];}).length===7; }},
-    {icon:'📅', name:'2-week streak', desc:'Full workouts 2 weeks in a row', check: function(){ return streak >= 2; }},
-    {icon:'🏆', name:'Month strong', desc:'Full workouts 4 weeks in a row', check: function(){ return streak >= 4; }},
-  ];
-
-  var data = await loadData();
-  var grid = document.getElementById('ach-grid');
-  grid.innerHTML = '';
-  achs.forEach(function(a) {
-    var unlocked = a.check(data);
-    grid.innerHTML += '<div class="ach-card"><div class="ach-icon '+(unlocked?'unlocked':'locked')+'">'+a.icon+'</div><div><div class="ach-name">'+a.name+'</div><div class="ach-desc">'+a.desc+'</div></div></div>';
-  });
-}
-
-async function resetWeek() {
-  if (!confirm('Reset all progress for this week?')) return;
-  var key = getWeekKey(weekOffset);
-  try { await window.storage.delete(key); } catch(e) {}
-  await initPage();
-}
-
-function switchTab(n) {
-  currentTab = n;
-  for (var i = 0; i < 5; i++) {
-    document.getElementById('panel-'+i).classList.remove('vis');
-    document.querySelectorAll('.nav-tab')[i].className = 'nav-tab';
-  }
-  document.getElementById('panel-'+n).classList.add('vis');
-  var cls = ['a1','a2','a3','','a4'][n];
-  document.querySelectorAll('.nav-tab')[n].className = 'nav-tab '+cls;
-  if (n === 4) { loadData().then(function(d){ renderDashboard(d); renderAchievements(); }); }
-}
-
-function changeWeek(dir) {
-  weekOffset += dir;
-  document.getElementById('week-label').textContent = getWeekLabel(weekOffset);
-  initPage();
-}
-
-function toggleTip(info) {
-  var tip = info.closest('.ex-card').querySelector('.ex-tip');
-  var detail = info.querySelector('.ex-detail');
-  if (!tip) return;
-  var open = tip.classList.toggle('open');
-  if (detail) detail.textContent = open ? 'Tap to close' : 'Tap for tip';
-}
-
-document.querySelectorAll('.ex-card[data-day]').forEach(function(card) {
-  card.querySelector('.chk').addEventListener('click', function(e) {
-    e.stopPropagation();
-    toggleCheck(card);
-  });
 });
 
-async function initPage() {
-  var data = await loadData();
-  renderCheckboxes(data);
-  renderCardio(data);
-  for (var i = 0; i < 3; i++) updateProgress(i, data);
-  updateCardioProgress(data);
-  if (currentTab === 4) { renderDashboard(data); renderAchievements(); }
+async function render(){
+  const d=await loadData();
+  const cards=document.querySelectorAll('.ex-card[data-day="0"]');
+  let done=0;
+  cards.forEach(c=>{
+    const k=`d0-${c.dataset.id}`,chk=c.querySelector('.chk');
+    if(d.checks[k]){chk.classList.add('checked');c.classList.add('done');done++}
+    else{chk.classList.remove('checked');c.classList.remove('done')}
+  });
+  document.getElementById('prog-lbl-0').textContent=`${done} / ${cards.length} exercises`;
+  document.getElementById('prog-fill-0').style.width=Math.round(done/cards.length*100)+'%';
 }
 
-initPage();
+function switchTab(n){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('vis'));
+  document.getElementById('panel-'+n).classList.add('vis');
+}
+function changeWeek(d){weekOffset+=d;document.getElementById('week-label').textContent=weekLabel(weekOffset);render()}
+render();
 </script>
+</body>
+</html>
