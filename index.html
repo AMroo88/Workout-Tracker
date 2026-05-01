@@ -956,7 +956,7 @@
        ========================================================= */
 
     // -------------------------
-    // 1) Storage polyfill
+    // 1) Storage polyfill 
     // -------------------------
     (function ensureStorage() {
       if (window.storage) return;
@@ -1180,16 +1180,28 @@
       if (fill) fill.style.width = pct + '%';
     }
 
-    async function completeWorkout(day) {
-      var data = await loadData();
-      if (!data.workouts) data.workouts = [];
-      if (data.workouts.indexOf(day) === -1) data.workouts.push(day);
+async function completeWorkout(day) {
+  var data = await loadData();
+  if (!data.workouts) data.workouts = [];
 
-      await saveData(data);
-      updateProgress(day, data);
+  var idx = data.workouts.indexOf(day);
 
-      if (currentTab === 4) {
-        renderDashboard(data);
+  if (idx === -1) {
+    // Mark complete
+    data.workouts.push(day);
+  } else {
+    // UNDO: remove completion for this day only
+    data.workouts.splice(idx, 1);
+  }
+
+  await saveData(data);
+
+  // Update the UI states
+  updateProgress(day, data);
+
+  // If dashboard is open, refresh it
+  if (currentTab === 4) {
+    renderDashboard(data);
         renderAchievements();
       }
     }
