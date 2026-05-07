@@ -278,7 +278,20 @@
     </div>
 
     <div class="blk">
-      <div class="blk-title">Main work · 45–60s rest between sets</div>
+  <div class="blk-title">Main work · 45–60s rest between sets</div>
+
+  <!-- Core A main (shown on A weeks) -->
+  <div id="core-main-a">
+    <!-- Paste Core A main ex-cards here -->
+    <!-- IMPORTANT: change data-id of each main exercise to start with "a_" -->
+  </div>
+
+  <!-- Core B main (shown on B weeks) -->
+  <div id="core-main-b" style="display:none">
+    <!-- Paste Core B main ex-cards here -->
+    <!-- IMPORTANT: change data-id of each main exercise to start with "b_" -->
+  </div>
+</div>
 
       <div class="ex-card" data-day="0" data-id="m1">
         <div class="ex-main">
@@ -1011,6 +1024,39 @@
       return monday.toLocaleDateString('en-NL', { day:'numeric', month:'short' });
     }
 
+// Anchor week: Monday 4 May 2026
+var CORE_ANCHOR_KEY = "wk-2026-05-04";
+
+function parseWeekKeyToDate(weekKey) {
+  var parts = weekKey.replace("wk-", "").split("-");
+  var y = parseInt(parts[0], 10);
+  var m = parseInt(parts[1], 10) - 1;
+  var d = parseInt(parts[2], 10);
+  var dt = new Date(y, m, d);
+  dt.setHours(0,0,0,0);
+  return dt;
+}
+
+function weeksBetween(a, b) {
+  return Math.round((b - a) / (7 * 24 * 60 * 60 * 1000));
+}
+
+function useCoreAThisWeek() {
+  var anchor = parseWeekKeyToDate(CORE_ANCHOR_KEY);
+  var thisWeek = getMonday(weekOffset);
+  var diff = weeksBetween(anchor, thisWeek);
+  return (diff % 2) === 0; // anchor week => A
+}
+
+function applyCoreVariant() {
+  var showA = useCoreAThisWeek();
+  var a = document.getElementById("core-main-a");
+  var b = document.getElementById("core-main-b");
+  if (!a || !b) return;
+
+  a.style.display = showA ? "block" : "none";
+  b.style.display = showA ? "none" : "block";
+}
     // -------------------------
     // 4) Data helpers
     // -------------------------
@@ -1122,8 +1168,9 @@
     }
 
     function updateProgress(day, data) {
-      var cards = document.querySelectorAll('.ex-card[data-day="'+day+'"]');
-      var total = cards.length, done = 0;
+var cards = Array.from(document.querySelectorAll('.ex-card[data-day="'+day+'"]'))
+  .filter(function(el){ return el.offsetParent !== null; });
+``      var total = cards.length, done = 0;
 
       cards.forEach(function(c) {
         if (data.checks[exKey(day, c.dataset.id)]) done++;
@@ -1422,6 +1469,7 @@ async function completeWorkout(day) {
     // 10) Init
     // -------------------------
     async function initPage() {
+	applyCoreVariant();
       var data = await loadData();
 
       renderCheckboxes(data);
