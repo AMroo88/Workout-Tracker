@@ -1170,7 +1170,7 @@ function applyCoreVariant() {
     function updateProgress(day, data) {
 var cards = Array.from(document.querySelectorAll('.ex-card[data-day="'+day+'"]'))
   .filter(function(el){ return el.offsetParent !== null; });
-``      var total = cards.length, done = 0;
+      var total = cards.length, done = 0;
 
       cards.forEach(function(c) {
         if (data.checks[exKey(day, c.dataset.id)]) done++;
