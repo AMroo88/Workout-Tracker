@@ -476,7 +476,21 @@
 
 <!-- workout-footer must come NEXT -->
 <div class="workout-footer">
-  ...
+
+  <div class="wf-prog">
+    <div class="wf-label" id="prog-lbl-0">0 / 0 exercises</div>
+    <div class="prog-bar">
+      <div class="prog-fill" id="prog-fill-0" style="width:0%;background:var(--c1)"></div>
+    </div>
+  </div>
+
+  <button class="wf-btn complete-btn"
+          id="wf-btn-0"
+          onclick="completeWorkout(0)"
+          style="border-color:var(--c1);color:var(--c1);background:var(--c1d)">
+    Mark complete
+  </button>
+
 </div>
 
 </div> <!-- ✅ END panel-0 -->
