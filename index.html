@@ -1338,7 +1338,11 @@ async function completeWorkout(day) {
       names.forEach(function(n, i) {
         var doneWorkout = data.workouts && data.workouts.indexOf(i) > -1;
 
-        var cards = document.querySelectorAll('.ex-card[data-day="'+i+'"]');
+        var cards = Array.from(
+  document.querySelectorAll('.ex-card[data-day="'+i+'"]')
+).filter(function(el) {
+  return el.offsetParent !== null; // ✅ count only visible exercises
+});
         var total = cards.length, checked = 0;
         cards.forEach(function(c) { if (data.checks[exKey(i,c.dataset.id)]) checked++; });
 
