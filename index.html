@@ -1352,11 +1352,18 @@ async function completeWorkout(day) {
       names.forEach(function(n, i) {
         var doneWorkout = data.workouts && data.workouts.indexOf(i) > -1;
 
-        var cards = Array.from(
-  document.querySelectorAll('.ex-card[data-day="'+i+'"]')
-).filter(function(el) {
-  return el.offsetParent !== null; // ✅ count only visible exercises
-});
+        var cards = Array.from(document.querySelectorAll('.ex-card[data-day="'+i+'"]'));
+		// Core day special handling: count warm-up + active main variant only
+if (i === 0) {
+  var useA = useCoreAThisWeek(); // you already have this for alternation
+  cards = cards.filter(function(c) {
+    var id = c.dataset.id || "";
+    // keep warmups (w1, w2, w3...) + active variant (a_... or b_...)
+    if (id.startsWith("w")) return true;
+    if (useA) return id.startsWith("a_");
+    return id.startsWith("b_");
+  });
+}
         var total = cards.length, checked = 0;
         cards.forEach(function(c) { if (data.checks[exKey(i,c.dataset.id)]) checked++; });
 
